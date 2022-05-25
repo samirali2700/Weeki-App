@@ -5,7 +5,7 @@ import * as Animatable from "react-native-animatable";
 
 
 const TabButton = (props: any) => {
-    const { item, onPress, accessibilityState } = props;
+    const { type, activeIcon, inactiveIcon, onPress, accessibilityState } = props;
     const focused = accessibilityState.selected;
     const viewRef = useRef(null);
 
@@ -26,7 +26,7 @@ const TabButton = (props: any) => {
                 ref={viewRef}
                 duration={500}
             >
-            <Icon as={item.type} name={focused ? item.activeIcon: item.inactiveIcon} color={focused?'blue.800': 'blue.300'}></Icon>
+            <Icon as={type} name={focused ? activeIcon: inactiveIcon} color={focused?'blue.800': 'blue.300'}></Icon>
             </Animatable.View>
         </Pressable>
     );  
