@@ -25,15 +25,16 @@ import Animated, { Extrapolate, interpolate, interpolateNode, useAnimatedStyle }
 import CustomDrawer from './components/CustomDrawer';
 
 import { DrawerItem, createDrawerNavigator, DrawerContentScrollView , useDrawerProgress, DrawerItemList, useDrawerStatus  } from '@react-navigation/drawer';
-import { RootStackParamList,RootTabParamList, RootDrawerParamList } from './typings/RootParamList';
+import { DrawerParamList, RootStackParamList,StackParamList, TabParamList } from './typings/RootParamList';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { NavigationContainerProps, useNavigationContainerRef } from '@react-navigation/native';
 
 
-const Tab = createBottomTabNavigator<RootTabParamList>();
-const Stack = createStackNavigator<RootStackParamList>();
-const Drawer = createDrawerNavigator<RootDrawerParamList>();
 
 
+const Drawer = createDrawerNavigator();
+const Tab = createBottomTabNavigator<TabParamList>();
+const Stack = createStackNavigator<StackParamList>();
 
 const TabArr = [
     {id: 1, route: 'Home', label: 'Home', component: Home, type: Ionicons, activeIcon: 'home', inactiveIcon: 'home-outline', toggle: false},
@@ -73,6 +74,8 @@ const App = () => {
     
 }
 
+
+
 function TabStack() {
     const { showTab } = useAppSelector(state => state.app);
     const toggleTab = showTab ? 'flex' :'none';
@@ -88,7 +91,8 @@ function TabStack() {
                 borderRadius: 16,
                 display: toggleTab
             },
-            headerShown: false
+            headerShown: false,
+
         }}>
 
         <Tab.Screen name="Home" component={Home} 
@@ -109,12 +113,10 @@ function TabStack() {
 }
 
 
-
-type Props = NativeStackScreenProps<RootStackParamList, 'App'>
-const Screens:React.FC<Props> = ({navigation}) => {
+type Props =  NativeStackScreenProps<DrawerParamList, 'Screens'>;
+const Screens = ({navigation}: Props['navigation']) => {
     const progress = useDrawerProgress();
 
-  
     const style = useAnimatedStyle(() => {
         const scale = interpolate(progress.value, [0, 1], [1, 0.8], Extrapolate.CLAMP);
         const borderRadius = interpolate(progress.value, [0,1], [1,30]);
