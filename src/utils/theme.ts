@@ -17,7 +17,16 @@ const colors = {
         700: '#334866',
         800: '#223044',
         900: '#111822'
-      }
+      },
+    
+}
+const themes = {
+    primary: {
+        50: '#4a90e2',
+        100: '#0088ff',
+        
+
+    }
 }
 
-export default extendTheme({ config, colors })
+export default extendTheme({ config, colors, themes })

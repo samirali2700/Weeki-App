@@ -3,7 +3,6 @@ import { Icon, Pressable} from 'native-base';
 
 import * as Animatable from "react-native-animatable";
 
-
 const TabButton = (props: any) => {
     const { type, activeIcon, inactiveIcon, onPress, accessibilityState } = props;
     const focused = accessibilityState.selected;

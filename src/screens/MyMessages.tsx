@@ -1,35 +1,20 @@
-import { Box, Center, Heading, Text, View,
-VStack, useColorModeValue, Pressable
-} from "native-base";
-import React, { useRef } from "react";
-import ThemeToggle from "../components/theme-toggle";
-import * as Animatable from "react-native-animatable";
-import { useFocusEffect } from "@react-navigation/native";
+import React from "react";
+import { Box, Center, Heading, VStack, useColorModeValue } from "native-base";
 
-const MyMessages = () => {
-    const [checked, setChecked] = React.useState(false);
-    const handleView = useRef(null);
 
-    useFocusEffect(
-        React.useCallback(() => {
-            handleView.current.animate({0: {rotate: '-45deg'}, 1: {rotate: '0deg'}});
-    }, [])
-    );
+import { RootTabScreenProps } from "../typings/RootParamList";
 
+
+type Props = RootTabScreenProps<'MyMessages'>
+const MyMessages:React.FC<Props> = () => {
     return(
-    <Animatable.View ref={handleView}  duration={100} style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
-        <Center w="100%" h="100%"
-            _dark={{bg: 'blueGray.900'}}
-            _light={{bg: 'yellow.500'}}
-        > 
+        <Center w="100%" h="100%" _dark={{bg: 'blueGray.900'}}  _light={{bg: 'primary.50'}}> 
             <VStack space={5} w="100%" alignItems="center">
                 <Box p={10} bg={useColorModeValue('red.500','yellow.500')} >
                     <Heading size="2xl">Beskeder</Heading>
                 </Box>
-                <ThemeToggle></ThemeToggle>
             </VStack>
         </Center>
-    </Animatable.View>
     )
 }
     

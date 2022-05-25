@@ -1,59 +1,67 @@
-import { Box, Center, Heading, Text, View,
-VStack, useColorModeValue, Pressable, HStack
-} from "native-base";
-import React, { useRef } from "react";
-import ThemeToggle from "../components/theme-toggle";
+import React, { useState } from "react";
+import { Box, Text, Center, Heading, VStack, useColorModeValue, Pressable, HStack, ScrollView} from "native-base";
+
+//components
+import TodoItem from "../components/TodoItem";
+
 import AnimatedCheckbox from 'react-native-checkbox-reanimated';
-import { useFocusEffect } from "@react-navigation/native";
-import * as Animatable from "react-native-animatable";
-const Todo = () => {
+
+import { RootTabScreenProps } from "../typings/RootParamList";
+
+//temp todo list
+const TODO = [
+    {
+        index: 0,
+        title: 'My First todo'
+    },
+    {
+        index: 1,
+        title: 'My Second todo'
+    },
+    {
+        index: 2,
+        title: 'My Third todo'
+    },
+    {
+        index: 3,
+        title: 'My Fourth todo'
+    },
+    {
+        index: 4,
+        title: 'My Fifth todo'
+    }
+
+]
+
+type Props = RootTabScreenProps<'Todo'>
+const Todo:React.FC<Props> = () => {
     const [checked, setChecked] = React.useState(false);
 
-    const viewRef = useRef(null);
+    const [todo, setTodo] = useState(TODO);
 
-    useFocusEffect(
-        React.useCallback(() => {
-            viewRef.current.slideInDown(250);
-    }, [])
-    );
     return(
-    <Animatable.View ref={viewRef} style={{flex:1}}>
-        <Center flex={1}  px={4}
-            _dark={{bg: 'blueGray.900'}}
-            _light={{bg: 'purple.500'}}
-        > 
-            <VStack space={5} w="100%" alignItems="center">
-                <Box p={10} bg={useColorModeValue('red.500','yellow.500')} >
-                    <Heading size="2xl">TO DO</Heading>
-                </Box>
-                <ThemeToggle></ThemeToggle>
-                <HStack space={5}>
-                    <Box w={28} h={28}>
-                        <Pressable onPress={() => setChecked(!checked)}>
-                            <AnimatedCheckbox
-                                checked={checked}
-                                highlightColor="#4444ff"
-                                checkmarkColor="#ffffff"
-                                boxOutlineColor="#4444ff"
-                                />
-                        </Pressable>
-                    </Box>
-                    <Box w={28} h={28}>
-                        <Pressable onPress={() => setChecked(!checked)}>
-                            <AnimatedCheckbox
-                                checked={checked}
-                                highlightColor="#4444ff"
-                                checkmarkColor="#ffffff"
-                                boxOutlineColor="#4444ff"
-                                />
-                        </Pressable>
-                    </Box>
-                </HStack>
-            </VStack>
-        </Center>
-    </Animatable.View>
+        <Box  flex={1} _dark={{bg: 'blueGray.900'}}  _light={{bg: 'primary.50'}}>
+            <Box py={9} bg={useColorModeValue('red.500','yellow.500')} w="100%" alignItems="center">
+                <Heading  size="2xl">TO DO</Heading>
+            </Box>
+            <ScrollView  px={3.5} pt={5}>
+                {todo.map((todo, index) => (
+                    <TodoItem key={index} todo={todo} />
+                ))}
+            </ScrollView>
+        </Box>
+
     )
 }
     
     
 export default Todo;
+
+{/* <Pressable onPress={() => setChecked(!checked)}>
+<AnimatedCheckbox
+    checked={checked}
+    highlightColor="#4444ff"
+    checkmarkColor="#ffffff"
+    boxOutlineColor="#4444ff"
+    />
+</Pressable> */}

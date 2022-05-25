@@ -1,6 +1,6 @@
 import React from 'react';
-import PrivateLayout from "./PrivateLayout";
-import PublicLayout from "./PublicLayout";
+import PrivateLayout from "./layouts/PrivateLayout";
+import PublicLayout from "./layouts/PublicLayout";
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
