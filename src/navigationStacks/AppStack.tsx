@@ -6,11 +6,11 @@ import {  createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 //Screens
 import Home from '../screens/Home';
 import Notification from '../screens/Notification';
-import Todo from '../screens/Todo';
+import TodoScreen from '../screens/Todo';
 import MyMessages from '../screens/MyMessages';
 
 //Components
-import TabButton from '../components/TabButton';
+import TabButton from '../components/tab-Button';
 
 //Icons
 import {  Ionicons, Feather } from '@expo/vector-icons';
@@ -39,7 +39,7 @@ const AppStack:React.FC<Props> = () => {
     <Tab.Screen name="Notification" component={Notification} 
     options={{tabBarButton: (props) => <TabButton {...props} activeIcon="notifications" inactiveIcon="notifications-outline" type={Ionicons}/>}} />
     
-    <Tab.Screen name="Todo" component={Todo} 
+    <Tab.Screen name="Todo" component={TodoScreen} 
     options={{tabBarButton: (props) => <TabButton {...props} activeIcon="md-list-sharp" inactiveIcon="md-list-outline" type={Ionicons}/>}} />
     
     <Tab.Screen name="MyMessages" component={MyMessages} 
