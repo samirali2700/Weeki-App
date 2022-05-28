@@ -1,13 +1,13 @@
 import React from 'react'
-import { StackDrawerScreenProps, TabParamList } from '../typings/RootParamList'
+import { PrivateStackScreenProps, PrivateTabParamList } from '../typings/RootParamList'
 
 import {  createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 //Screens
-import Home from '../screens/Home';
-import Notification from '../screens/Notification';
-import TodoScreen from '../screens/Todo';
-import MyMessages from '../screens/MyMessages';
+import Home from '../screens/private/Tab/Home';
+import Notification from '../screens/private/Tab/Notification';
+import TodoScreen from '../screens/private/Tab/Todo';
+import MyMessages from '../screens/private/Tab/MyMessages';
 
 //Components
 import TabButton from '../components/tab-Button';
@@ -15,9 +15,9 @@ import TabButton from '../components/tab-Button';
 //Icons
 import {  Ionicons, Feather } from '@expo/vector-icons';
 
-const Tab = createBottomTabNavigator<TabParamList>();
+const Tab = createBottomTabNavigator<PrivateTabParamList>();
 
-type Props = StackDrawerScreenProps<'AppStack'>
+type Props = PrivateStackScreenProps<'AppStack'>
 const AppStack:React.FC<Props> = () => {
   return (
     <Tab.Navigator screenOptions={{
@@ -31,7 +31,7 @@ const AppStack:React.FC<Props> = () => {
         },
         headerShown: false,
         
-    }} initialRouteName="Home">
+    }} initialRouteName="Home" >
 
     <Tab.Screen name="Home" component={Home} 
     options={{tabBarButton: (props) => <TabButton {...props} activeIcon="home" inactiveIcon="home-outline" type={Ionicons}/>}} />

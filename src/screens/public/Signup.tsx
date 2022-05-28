@@ -1,12 +1,8 @@
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { useEffect, useState } from "react";
 import {  Text, StyleSheet, TextInput, TouchableOpacity, Pressable, KeyboardAvoidingView, ToastAndroid } from "react-native";
 
-import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
-import { resetPassword, signin, signup } from "../store/thunks/userThunk";
-
-
+import { useAppDispatch, useAppSelector } from "../../hooks/reduxHook";
+import { resetPassword, signin, signup } from "../../store/thunks/userThunk";
 
 import {
     VStack, 
@@ -25,11 +21,10 @@ import {
 
 
 import { Ionicons, MaterialIcons } from '@expo/vector-icons'; 
-import { PublicStackScreenProps } from "../typings/RootParamList";
-import { Shadow } from "react-native-shadow-2";
-import { ShadowPreset } from "../utils/theme";
+import { PublicStackScreenProps } from "../../typings/RootParamList";
 
-import FormInput from "../components/form-input";
+
+import FormInput from "../../components/form-input";
 
 type Props = PublicStackScreenProps<'Signup'>
 const Signup:React.FC<Props> =  ({navigation}) => {

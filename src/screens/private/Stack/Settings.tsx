@@ -1,21 +1,18 @@
 import React, { useLayoutEffect } from 'react';
 import { VStack, Center, Avatar, Heading, IconButton, useColorModeValue, Box, Image, Icon } from 'native-base';
 
-import { StackDrawerScreenProps} from '../typings/RootParamList';
+import { PrivateStackScreenProps } from '../../../typings/RootParamList';
 import { Feather } from '@expo/vector-icons';
 
-type Props = StackDrawerScreenProps<'Settings'>
+type Props = PrivateStackScreenProps<'Settings'>
 const Settings:React.FC<Props> = ({navigation}) => {
 
     useLayoutEffect(() => {
         navigation.setOptions({
-            headerLeft: () => <IconButton mx={2} icon={<Icon as={Feather} name='chevron-left' size="2xl" onPress={() => navigation.reset({index: 0, routes: [{name: 'AppStack'}]})}/>}/>     
+            headerLeft: () => <IconButton mx={2} icon={<Icon as={Feather} name='chevron-left' size="2xl" onPress={() => navigation.navigate('AppStack')}/>}/>     
         });
     },[])
 
-  function handlePressBackButton() {
-
-  }
  
     return(
      <Center w="100%" h="100%"  _dark={{bg: 'blueGray.900'}}  _light={{bg: 'primary.50'}}> 

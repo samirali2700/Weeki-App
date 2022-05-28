@@ -20,13 +20,12 @@ import {  useAppSelector } from "../hooks/reduxHook";
 import { View, useToken, IconButton, Icon, Slide, Box, Text } from 'native-base';
 
 //type checking
-import { DrawerParamList, RootScreenProps } from '../typings/RootParamList';
+import { PrivateDrawerParamList, RootStackScreenProps } from '../typings/RootParamList';
 
-import { DrawerActions } from '@react-navigation/native';
+const Drawer = createDrawerNavigator<PrivateDrawerParamList>();
 
-const Drawer = createDrawerNavigator<DrawerParamList>();
 
-type Props = RootScreenProps<'AppDrawer'>
+type Props = RootStackScreenProps<'PrivateLayout'>
 const App:React.FC<Props> = ({ navigation }) => {
     const themeColor = useToken('themes','theme.50')
     const { loggedIn, loggedInUser } = useAppSelector(state => state.user);
@@ -41,13 +40,6 @@ const App:React.FC<Props> = ({ navigation }) => {
         return () => { console.log('going outside rivate layout')};
     }, [loggedIn])
 
-
-    const navigate = useCallback(
-        (to) => {
-            navigation.navigate(to)
-        },
-        [navigation],
-    )
     return(
         <View flex={1} bg="theme.100">   
            <Slide in={popup} placement='top'>
@@ -55,12 +47,12 @@ const App:React.FC<Props> = ({ navigation }) => {
                     <Text fontSize={'md'} color='white'>Velkommen, {loggedInUser.email}</Text>
                 </Box>
             </Slide>
-            <Drawer.Navigator backBehavior='initialRoute'
+            <Drawer.Navigator
             screenOptions={{ headerShown: false, drawerType: 'slide', overlayColor: 'transparent',
                 drawerStyle: { width: '50%', backgroundColor: themeColor},            
                 sceneContainerStyle: { backgroundColor: themeColor, borderWidth: 0},
             }}  
-            drawerContent={props => <CustomDrawer  {...props} onLogout={handleLogout} navigate={to => navigate(to)}/>}>
+            drawerContent={props => <CustomDrawer  {...props} onLogout={handleLogout}/>}>
                 <Drawer.Screen name='RootStack' component={RootStack}></Drawer.Screen>
             </Drawer.Navigator>
         </View>

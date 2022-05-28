@@ -1,11 +1,10 @@
 import React from 'react'
 import { Center, VStack, Box, Heading, useColorModeValue } from 'native-base'
 
+import { PrivateTabScreenProps } from '../../../typings/RootParamList'
 
-import { RootTabScreenProps } from '../typings/RootParamList'
 
-
-type Props = RootTabScreenProps<'Notification'>
+type Props = PrivateTabScreenProps<'Notification'>
 const Notification:React.FC<Props> = () => {
   return (
     <Center w="100%" h="100%"  _dark={{bg: 'blueGray.900'}}  _light={{bg: 'primary.50'}}> 

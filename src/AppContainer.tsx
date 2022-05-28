@@ -22,13 +22,13 @@ import {
     Gluten_900Black,
   } from '@expo-google-fonts/gluten';
 import { Box, Center, Slide, Spinner } from 'native-base';
-
+import { RootStackScreenProps } from './typings/RootParamList';
 
 
 const AppContainer = () => {
     const { isLoading } = useAppSelector(state => state.app);
-    const { loggedIn } = useAppSelector(state => state.user);
-
+    // const { loggedIn } = useAppSelector(state => state.user);
+    const loggedIn = true;
     let [fontsLoaded] = useFonts({
         Gluten_100Thin,
         Gluten_200ExtraLight,

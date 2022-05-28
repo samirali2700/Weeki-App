@@ -2,10 +2,10 @@ import React from "react";
 import { Box, Center, Heading, VStack, useColorModeValue } from "native-base";
 
 
-import { RootTabScreenProps } from "../typings/RootParamList";
+import { PrivateTabScreenProps } from "../../../typings/RootParamList";
 
 
-type Props = RootTabScreenProps<'MyMessages'>
+type Props = PrivateTabScreenProps<'MyMessages'>
 const MyMessages:React.FC<Props> = () => {
     return(
         <Center w="100%" h="100%" _dark={{bg: 'blueGray.900'}}  _light={{bg: 'primary.50'}}> 

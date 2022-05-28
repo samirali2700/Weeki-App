@@ -1,5 +1,5 @@
 import React from 'react'
-import { DrawerParamList, StackParamList } from '../typings/RootParamList';
+import { DrawerParamList, PrivateDrawerScreenProps, StackParamList } from '../typings/RootParamList';
 
 //Icons
 import { Feather } from '@expo/vector-icons';
@@ -9,8 +9,8 @@ import Animated, { Extrapolate, interpolate, interpolateNode, useAnimatedStyle }
 
 import { useDrawerProgress, DrawerScreenProps  } from '@react-navigation/drawer';
 
-import MyAccount from '../screens/MyAccount';
-import Settings from '../screens/Settings';
+import MyAccount from '../screens/private/Stack/MyAccount';
+import Settings from '../screens/private/Stack/Settings';
 
 //Nav Stacks
 import AppStack from './AppStack';
@@ -20,7 +20,7 @@ import { Icon, IconButton } from 'native-base';
 
 const Stack = createStackNavigator<StackParamList>()
 
-type Props = DrawerScreenProps<DrawerParamList, 'RootStack'>
+type Props = PrivateDrawerScreenProps<'RootStack'>
 const RootStack:React.FC<Props> = ({navigation}) => {
     
     const  progress = useDrawerProgress();
@@ -32,13 +32,12 @@ const RootStack:React.FC<Props> = ({navigation}) => {
         
         return {
           borderRadius: borderRadius,
-          //transform: [{ scale }],
             transform: [{scale: scale}],
         };
       }, []);
 
     return(
-        <Animated.View style={[{flex: 1, overflow: 'hidden', borderWidth:1, borderColor: '#808080'  }, style]}>
+        <Animated.View style={[{flex: 1, overflow: 'hidden' }, style]}>
             <Stack.Navigator initialRouteName='AppStack'  screenOptions={{
                 headerTransparent: true,
                 headerTitleStyle: { fontWeight: 'bold'},

@@ -6,8 +6,8 @@ import {  ToastAndroid } from "react-native";
 
 import * as SecureStore from 'expo-secure-store';
 
-import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
-import { resetPassword, signin } from "../store/thunks/userThunk";
+import { useAppDispatch, useAppSelector } from "../../hooks/reduxHook";
+import { resetPassword, signin } from "../../store/thunks/userThunk";
 
 
 
@@ -31,8 +31,8 @@ import { FormControl, Icon, Input,
 import { Ionicons, Entypo } from '@expo/vector-icons';
 import { Slide, Spinner } from "native-base";
 
-import { PublicStackScreenProps } from "../typings/RootParamList";
-import FormInput from "../components/form-input";
+import { PublicStackScreenProps } from "../../typings/RootParamList";
+import FormInput from "../../components/form-input";
 
 
 

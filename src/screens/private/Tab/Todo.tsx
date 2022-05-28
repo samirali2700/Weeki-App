@@ -1,18 +1,18 @@
 import React, { useCallback, useState } from "react";
 import { Box, Text, Center, Heading, VStack, IconButton, useToken, Stack, Input} from "native-base";
 
-import { RootTabScreenProps } from "../typings/RootParamList";
+import { PrivateTabScreenProps } from "../../../typings/RootParamList";
 
-import TodoList from "../components/todo-list";
-import { Todo } from "../entities/Todo";
+import TodoList from "../../../components/todo-list";
+import { Todo } from "../../../entities/Todo";
 import { AntDesign } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
 import { Shadow } from "react-native-shadow-2";
-import { ShadowPreset } from "../utils/theme";
+import { ShadowPreset } from "../../../utils/theme";
 
 
 
-type Props = RootTabScreenProps<'Todo'>;
+type Props = PrivateTabScreenProps<'Todo'>;
 const TodoScreen:React.FC<Props> = () => {
     const [todos, setTodos] = useState<Todo[]>([new Todo(0, 'Implement Login & Signup'), new Todo(1, 'Implement Chat System')])
     const [task, setTask] = useState('');
@@ -48,7 +48,7 @@ const TodoScreen:React.FC<Props> = () => {
         [],
     ))
     return(
-        <Box flex={1}>
+        <Box>
              <VStack space={2} safeAreaTop  bg='theme.100' mb={'-7'} h={'72'} px={5} justifyContent='center' 
                 style={{
                     borderBottomStartRadius:50,

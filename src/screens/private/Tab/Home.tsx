@@ -4,7 +4,7 @@ import { Box, Center, Heading,VStack, useColorModeValue, Text, Container, HStack
 import * as Animatable from "react-native-animatable";
 
 
-import { PrivateTabScreenProps, RootTabScreenProps } from "../typings/RootParamList";
+import { PrivateTabScreenProps } from "../../../typings/RootParamList";
 import { MotiView, AnimatePresence } from 'moti';
 
 
