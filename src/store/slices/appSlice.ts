@@ -2,11 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 
 
 interface appState {
-    showTab: boolean
+    isLoading: boolean
 }
 
 const initialState: appState= {
-    showTab: true
+    isLoading: false
 }
 
 
@@ -14,8 +14,8 @@ const app = createSlice({
     name: 'App',
     initialState: initialState,
     reducers:{
-        toggleTab: (state) => {
-            state.showTab = !state.showTab;
+        toggleLoading: (state) => {
+            state.isLoading = !state.isLoading;
         }
     },
     extraReducers: function(builder) {},
@@ -24,5 +24,5 @@ const app = createSlice({
 
 
 //if any action: export const { action } = app.action;
-export const { toggleTab } = app.actions;
+export const { toggleLoading } = app.actions;
 export default app.reducer;

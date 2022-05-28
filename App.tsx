@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import Store from "./src/store/store";
 
 
+
 export default function App() {
   return (
     <NavigationContainer>

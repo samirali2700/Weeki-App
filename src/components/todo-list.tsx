@@ -1,80 +1,55 @@
-import { View, Text } from 'react-native'
-import React, { useCallback, useLayoutEffect, useRef } from 'react'
+import React from 'react';
+import { Dimensions } from 'react-native';
+
+import { PanGestureHandlerProps, ScrollView } from 'react-native-gesture-handler';
+import Animated, {  Layout, FadeOut, SlideInLeft } from 'react-native-reanimated';
 
 
 import TodoItem  from "./todo-item";
-
-import { PanGestureHandlerProps, ScrollView } from 'react-native-gesture-handler';
-
 import { Todo }  from "../entities/Todo";
 
-import * as Animatable from "react-native-animatable";
-import Animated, { useAnimatedStyle, useSharedValue, withTiming, SlideInUp } from 'react-native-reanimated';
-import { Box } from 'native-base';
-import { MotiView, AnimatePresence } from "moti";
+const {height: SCREEN_HEIGHT} = Dimensions.get('window');
+
 
 interface TodoItemProps extends Pick<PanGestureHandlerProps, 'simultaneousHandlers'> {
   item: Todo,
-  onRemoveItem: (item: Todo) => void,
-
+  onRemoveItem: () => void,
+  onDone?: () => void,
+  index: number,
 }
-
-const AnimatedTodoItem = (props: TodoItemProps) => {
-  const { item, onRemoveItem, simultaneousHandlers } = props;
-  
-  const opacity = useSharedValue(1);
-
-  const handleRemove = useCallback(() => {
-
-    onRemoveItem(item)
-  }, [item, onRemoveItem])
-
-  const containerStyle = useAnimatedStyle(() => ({opacity: opacity.value}))
-
- 
-
+const AnimatedTodoItem:React.FC<TodoItemProps> = ({item, onRemoveItem, simultaneousHandlers, onDone}) => {
   return (
-    <MotiView >
+    <Animated.View layout={Layout.delay(200)} entering={SlideInLeft} exiting={FadeOut.duration(2000)}>
       <TodoItem 
           item={item}
-          onRemove={handleRemove}
+          onRemove={onRemoveItem}
           simultaneousHandlers={simultaneousHandlers}
+          onDone={onDone}
         />
-    </MotiView>
+    </Animated.View>
   )
 }
 
 
 
 interface TodoListProps {
-  items: Todo[],
-  onRemoveItem: (item: Todo) => void,
+  todos: Todo[],
+  onRemoveItem?: (itemId: number) => void,
+  onDone?: (itemId: number) => void,
 }
-const TodoList = (props: TodoListProps) => {
-  const { items, onRemoveItem } = props;
-  const scrollRef = useRef(null);
-
-
-
-
+const TodoList:React.FC<TodoListProps> = ({todos, onDone, onRemoveItem}) => {
   return (
-    <ScrollView ref={scrollRef} style={{paddingBottom: 20}}>
-         <AnimatePresence>
-        {items.map((item, index) => (
-          
+    <ScrollView style={{height: SCREEN_HEIGHT * .59} }>
+        {todos.map((item, index) => (
           <AnimatedTodoItem
+          index={index}
             key={index}
             item={item}
-            onRemoveItem={onRemoveItem}
-            simultaneousHandlers={scrollRef}
+            onRemoveItem={() => onRemoveItem(item.id)}
+            onDone={() => onDone(item.id)}
           />
- 
         ))}
-        </AnimatePresence>
     </ScrollView>
   )
 }
-
-//TODO do a animated Item holder
-
 export default TodoList

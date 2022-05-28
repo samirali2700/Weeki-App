@@ -1,4 +1,6 @@
 import { extendTheme } from "native-base";
+import { ShadowProps } from "react-native-shadow-2";
+
 
 const config = {
     useSystemColorMode: false,
@@ -18,15 +20,30 @@ const colors = {
         800: '#223044',
         900: '#111822'
       },
+    theme: {
+      50: '#4a90e2',
+      100: '#0088ff',
+    }
     
 }
 const themes = {
     primary: {
-        50: '#4a90e2',
-        100: '#0088ff',
-        
-
+       
     }
 }
+
+export const ShadowPreset = {
+    primary: {
+      startColor: 'rgba(0,0,0,0.1)',
+      finalColor: 'rgba(125,125,125,0)',
+      radius: 8,
+      sides: ['bottom'],
+      corners: ['bottomLeft', 'bottomRight'],
+      distance: 3,
+      offset: [0,0],
+      paintInside: false,
+      viewStyle: {alignSelf: 'stretch', backgroundColor: 'white'}
+    }  as ShadowProps, 
+  }  ;
 
 export default extendTheme({ config, colors, themes })

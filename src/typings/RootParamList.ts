@@ -7,6 +7,10 @@ import type {
   import type { DrawerScreenProps } from '@react-navigation/drawer';
 
 
+export type PublicStackScreenProps<T extends keyof PublicStackParamList> = StackScreenProps<PublicStackParamList, T>
+
+
+
 export type StackParamList = {
     AppStack: NavigatorScreenParams<TabParamList>,
     MyAccount: undefined,
@@ -37,3 +41,26 @@ export type StackDrawerScreenProps<T extends keyof StackParamList> = CompositeSc
     StackScreenProps<StackParamList, T>,
     DrawerScreenProps<DrawerParamList>
 >;
+
+export type RootScreenProps<T extends keyof StackParamList> = StackScreenProps<StackParamList, T>
+
+export type RooStackParamList = {
+    PrivateLayout: undefined,
+    PublicLayout: undefined
+}
+export type PublicStackParamList = {
+    Login: undefined,
+    Signup: undefined,
+}
+export type PrivateStackParamList = {
+
+}
+export type RootStackParamList = {
+    AppDrawer: NavigatorScreenParams<TabParamList>,
+    MyAccount: undefined,
+    Settings: undefined
+}
+export type DrawerScreenParamList = {
+    RootStack: undefined,
+}
+

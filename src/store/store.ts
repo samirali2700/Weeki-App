@@ -1,10 +1,12 @@
 import thunk from "redux-thunk";
 import { configureStore } from "@reduxjs/toolkit";
 import App from "./slices/appSlice";
+import User from "./slices/userSlice";
 
 const store = configureStore({
     reducer: {
-        app: App
+        app: App,
+        user: User,
     },
     middleware: [thunk]
 })

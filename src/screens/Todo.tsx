@@ -1,81 +1,89 @@
-import React, { useCallback, useRef, useState } from "react";
-import { Box, Text, Center, Heading, VStack, useColorModeValue, Pressable, HStack, View, IconButton, Icon, Tooltip, useToken, Stack} from "native-base";
-
+import React, { useCallback, useState } from "react";
+import { Box, Text, Center, Heading, VStack, IconButton, useToken, Stack, Input} from "native-base";
 
 import { RootTabScreenProps } from "../typings/RootParamList";
 
-
 import TodoList from "../components/todo-list";
 import { Todo } from "../entities/Todo";
+import { AntDesign } from "@expo/vector-icons";
+import { useFocusEffect } from "@react-navigation/native";
+import { Shadow } from "react-native-shadow-2";
+import { ShadowPreset } from "../utils/theme";
 
-//temp todo list
-const TODO = [
-    {
-        id: 0, 
-        task: 'sometjing 10',
-        done: false
-    },
-    {
-        id: 1, 
-        task: 'sometjing 1',
-        done: false
-    },
-    {
-        id: 2, 
-        task: 'sometjing 2',
-        done: false
-    },
-    {
-        id: 3, 
-        task: 'sometjing 3',
-        done: false
-    },
-    {
-        id: 4, 
-        task: 'sometjing 5',
-        done: false
-    },
 
-    
-  
 
-] as Todo[];
-
-type Props = RootTabScreenProps<'Todo'>
+type Props = RootTabScreenProps<'Todo'>;
 const TodoScreen:React.FC<Props> = () => {
-    const [checked, setChecked] = React.useState(false);
-    const [todo, setTodo] = useState(TODO);
+    const [todos, setTodos] = useState<Todo[]>([new Todo(0, 'Implement Login & Signup'), new Todo(1, 'Implement Chat System')])
+    const [task, setTask] = useState('');
+    const [empty, setEmpty] = useState(false);
 
-    // const onRemoveItem = useCallback((item) => {
-    //     setTodo((prevTodos) => {
-    //         return prevTodos.filter(i => i.id !== item.id);
-    //     })
-    // },[todo]) 
-    const onRemoveItem = (item:any) => {
-        console.log('ran onRemoveItem : Todo.tsx')
-        setTodo((prevTodos) => {
-            const newData = prevTodos.filter(i => i.id !== item.id);
-            return newData;
+    const handelRemove = useCallback((itemId) => {
+        setTodos((prevTodos) => {return [...prevTodos.filter(i => i.id !== itemId)]})
+    },[todos]) 
+
+    const handleDone = useCallback((itemId) => {
+        const toEdit = todos.findIndex(i => i.id === itemId)
+        setTodos(todo => {
+            let newData = [...todo];
+            newData[toEdit].done = !newData[toEdit].done;
+            return newData; 
         })
-    } 
+    },[todos])
+    
+    const addItem = useCallback(
+        () => {
+        if(task.length > 0){
+            setTodos((currentItems) => {return [...currentItems, new Todo(Math.random(), task)]})
+            setTask('');
+            setEmpty(false);
+        }else setEmpty(true);
+    },[task])
 
-
+    useFocusEffect(useCallback(
+        () => {
+            setTask('');
+            setEmpty(false);
+        },
+        [],
+    ))
     return(
         <Box flex={1}>
-             <Box bg={useToken('themes', 'primary.50')} mb={5} h={'1/5'} px={5}>
-                <Heading fontSize={25}>Hej *Bruger*</Heading>
-            </Box>
-            <VStack space={10}>
-            <Stack px={5}>
-                <TodoList 
-                    items={todo}
-                    onRemoveItem={onRemoveItem}
-                />
-            </Stack>
+             <VStack space={2} safeAreaTop  bg='theme.100' mb={'-7'} h={'72'} px={5} justifyContent='center' 
+                style={{
+                    borderBottomStartRadius:50,
+                    borderBottomEndRadius: 50,
+                }}
+             >
+                 <Box w={100} bg='theme.100' h={100} position='absolute' left={0} bottom={0} style={{transform: [{rotate: '25deg'}]}}></Box>
+                 <Box w={100} bg='theme.100' h={100} position='absolute' right={0} bottom={0} style={{transform: [{rotate: '-25deg'}]}}></Box>
+                <Heading fontSize={'4xl'} color={'white'} >To-do</Heading>
+                <Text color={'white'} bold fontSize={'md'}>Hvad vil du lave?</Text>
+                <Box>
+                    <Input _focus={{bg:'white'}} placeholder={empty?'Du mangler at tilføje To-do':"Tilføj til To-do"} borderColor={empty?'red.600': 'white'} variant={'filled'} fontSize={'md'} onChangeText={setTask} value={task}/>                <IconButton onPress={addItem} _icon={{as: AntDesign, name: 'plus', color: 'black'}} position='absolute' right={'20px'} size={'lg'}></IconButton>
+                </Box>
+            </VStack>
+            <VStack  space={10} >
+                <Stack px={5}  >
+                    {todos.length > 0 ? (
+                        <TodoList 
+                        todos={todos}
+                        onDone={handleDone}
+                        onRemoveItem={handelRemove}
+                    />
+                    ) : (
+                        <Box w='full' h={50} my={1} backgroundColor='white' borderRadius={8} >
+                        <Shadow  viewStyle={{alignSelf: 'stretch'}}  {...ShadowPreset.primary}>
+                            <Center h={'100%'}>
+                                <Text>Kom I gang med din næste To-do</Text>
+                            </Center>
+                        </Shadow>
+                        </Box>
+                    )}
+                </Stack>
             </VStack>
         </Box>
     )
 }
-    
     
 export default TodoScreen;

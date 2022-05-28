@@ -4,12 +4,12 @@ import { Box, Center, Heading,VStack, useColorModeValue, Text, Container, HStack
 import * as Animatable from "react-native-animatable";
 
 
-import { RootTabScreenProps } from "../typings/RootParamList";
+import { PrivateTabScreenProps, RootTabScreenProps } from "../typings/RootParamList";
 import { MotiView, AnimatePresence } from 'moti';
 
 
 
-type Props = RootTabScreenProps<'Home'>
+type Props = PrivateTabScreenProps<'Home'>
 const Home:React.FC<Props> = () => {
     return(
         <Center w="100%" h="100%"  _dark={{bg: 'blueGray.900'}} _light={{bg: 'primary.50'}} > 

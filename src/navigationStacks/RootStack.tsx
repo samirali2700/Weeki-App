@@ -23,11 +23,11 @@ const Stack = createStackNavigator<StackParamList>()
 type Props = DrawerScreenProps<DrawerParamList, 'RootStack'>
 const RootStack:React.FC<Props> = ({navigation}) => {
     
-    const progress = useDrawerProgress();
+    const  progress = useDrawerProgress();
 
     const style = useAnimatedStyle(() => {
-        const scale = interpolate(progress.value, [0, 1], [1, 0.8], Extrapolate.CLAMP);
-        const borderRadius = interpolate(progress.value, [0,1], [1,30]);
+        const scale = interpolate(progress.value, [0, 1], [1, 0.85], Extrapolate.CLAMP);
+        const borderRadius = interpolate(progress.value, [0,1], [1,15]);
 
         
         return {
@@ -38,8 +38,8 @@ const RootStack:React.FC<Props> = ({navigation}) => {
       }, []);
 
     return(
-        <Animated.View style={[{flex: 1, overflow: 'hidden',  }, style]}>
-            <Stack.Navigator initialRouteName='AppStack' screenOptions={{
+        <Animated.View style={[{flex: 1, overflow: 'hidden', borderWidth:1, borderColor: '#808080'  }, style]}>
+            <Stack.Navigator initialRouteName='AppStack'  screenOptions={{
                 headerTransparent: true,
                 headerTitleStyle: { fontWeight: 'bold'},
                 headerLeft: (props) => <IconButton mx={2} icon={<Icon as={Feather} name='menu' size="2xl" onPress={() => navigation.openDrawer()}/>}/>

@@ -25,7 +25,7 @@ const TabButton = (props: any) => {
                 ref={viewRef}
                 duration={500}
             >
-            <Icon as={type} name={focused ? activeIcon: inactiveIcon} color={focused?'blue.800': 'blue.300'}></Icon>
+            <Icon size={'md'} as={type} name={focused ? activeIcon: inactiveIcon} color={focused?'theme.100': 'theme.50'}></Icon>
             </Animatable.View>
         </Pressable>
     );  
