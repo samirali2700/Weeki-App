@@ -16,6 +16,7 @@ interface Props {
         as: React.ReactNode,
         name: string,
     },
+    value?: string,
     setValue: (value: string) => void
 };
 
@@ -26,7 +27,7 @@ const defaultProps = {
   isPassword: false,
   placeHolder: 'Det her er en input component',
 }
-const FormInput:React.FC<Props & typeof defaultProps> = ({isWrong, text, errorText, isPassword, setValue, placeHolder, icon, iconShow}) => {
+const FormInput:React.FC<Props & typeof defaultProps> = ({isWrong, text, errorText, isPassword, setValue, placeHolder, icon, iconShow, value}) => {
   const [show, setShow] = React.useState(false);
   
   return (
@@ -34,13 +35,13 @@ const FormInput:React.FC<Props & typeof defaultProps> = ({isWrong, text, errorTe
     <FormControl.Label _text={{bold: true}}>{text}</FormControl.Label>
     <Shadow viewStyle={{alignSelf:'stretch', marginBottom: 5}} {...ShadowPreset.primary}>
         {isPassword ? (
-          <Input _focus={{borderColor: "theme.100", bg: 'warmGray.100'}} 
+          <Input value={value} _focus={{borderColor: "theme.100", bg: 'warmGray.100'}} 
           type={show ? 'text' : 'password'}
           InputRightElement={<Icon as={<Entypo name={show ? 'eye' : 'eye-with-line'}/>}
           mr="2" size={6} color="muted.400" onPress={() => setShow(!show)}/>}  
           placeholder={placeHolder}  h="45" onChangeText={value => setValue(value)}/>
         ) : (
-          <Input InputLeftElement={iconShow? <Icon as={icon.as} name={icon.name} ml={2} /> :<></>}  _focus={{borderColor: "theme.100", bg: 'warmGray.100'}}  placeholder={placeHolder} onChangeText={setValue} /> 
+          <Input value={value} InputLeftElement={iconShow? <Icon as={icon.as} name={icon.name} ml={2} /> :<></>}  _focus={{borderColor: "theme.100", bg: 'warmGray.100'}}  placeholder={placeHolder} onChangeText={setValue} /> 
         )}
         
     </Shadow>

@@ -1,16 +1,19 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { FirebaseSignupSuccess, FirebaseSuccessLogin } from "../../entities/FirebaseSuccessLogin";
+import { createAsyncThunk, createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { User } from "../../entities/User";
-import { AppDispatch } from "../store";
+import { Auth } from "../../entities/Auth"
+import { useAppSelector } from "../../hooks/reduxHook";
 
 import { signin, signup, resetPassword, sendVerificationEmail } from "../thunks/userThunk";
 
 //it is important to define the shape of the data
 //with ts it is done with interface
-interface userState{
-    loggedInUser: User,
-    idToken: string | undefined,
+import { Error } from "../../interfaces/Error";
+import { Success } from "../../interfaces/Success";
 
+
+interface userState{
+    user: User,
+    auth: Auth,
     //loggedIn boolean derived from loggedInUser
     loggedIn: boolean,
 
@@ -25,8 +28,8 @@ interface userState{
 
 //also a intialistate, defines the data value on init
 const initialState: userState ={
-    loggedInUser: {} as User,
-    idToken: undefined,
+    user: {} as User,
+    auth: {} as Auth,
     loggedIn: false,
     error: undefined,
     loading: false,
@@ -38,7 +41,8 @@ const user = createSlice({
     initialState: initialState,
     reducers: {
         signout: state => {
-            state.loggedInUser = {} as User
+            state.user = {} as User
+            state.auth = {} as Auth
             state.loggedIn = false
         }
     },
@@ -51,55 +55,55 @@ const user = createSlice({
          */
 
         //  SIGN IN
-        builder.addCase(signin.fulfilled, (state, action) => {
-            state.loading = false;
-            state.loggedInUser = action.payload
-            state.idToken = action.payload.idToken
+        builder.addCase(signin.fulfilled, (state, action: PayloadAction<Success>) => {
+            const payload = action.payload;
+            state.auth = new Auth (payload.data.idToken, payload.data.refreshToken, payload.data.localId, payload.data.expiresIn);
+            state.user = new User (payload.user.email, payload.user.password, payload.data.profilePicture);
             state.loggedIn = true;
+            state.loading = false;
         }),
         builder.addCase(signin.pending, (state) => {
             state.loading = true;
-            console.log('inside dispatch')
         }),
-        builder.addCase(signin.rejected, (state, action) => {
+        builder.addCase(signin.rejected, (state, action: PayloadAction<Error>) => {
             state.loading = false;
             state.error = action.payload.error.message;
         }),
 
 
         //  SIGN UP
-        builder.addCase(signup.fulfilled, (state, action) => {
-            state.loading = false;
-            state.loggedInUser = action.payload;
-            state.idToken = action.payload.idToken;
-            if(state.idToken !== undefined){
-               // const result = sendVerificationEmail(state.idToken);
-            }
+        builder.addCase(signup.fulfilled, (state, action: PayloadAction<Success>) => {
+            const payload = action.payload;
+     
+            state.auth = new Auth (payload.data.idToken, payload.data.refreshToken, payload.data.localId, payload.data.expiresIn);
+            state.user = new User (payload.user.email, payload.user.password);
+
+            // const result = sendVerificationEmail(state.idToken);
+          
             state.loggedIn = true;
+            state.loading = false;
             
         }),
-        builder.addCase(signup.pending, (state, action) => {
+        builder.addCase(signup.pending, (state) => {
             state.loading = true;
         }),
-        builder.addCase(signup.rejected, (state, action) => {
+        builder.addCase(signup.rejected, (state, action: PayloadAction<Error>) => {
             state.loading = false;
             state.error = action.payload.error.message;
+            
         }),
-        builder.addCase(resetPassword.fulfilled, (state, action) => {
-            state.loading = false;
-            state.notification = 'Tjek din mail for hvordan du nulstiller din adgangskode'
+        builder.addCase(resetPassword.fulfilled, (state) => {
+
+            state.notification = 'Nulstillings mail Sendt'
         }),
-        builder.addCase(resetPassword.pending, (state, action) => {
-            state.loading = true;
-        }),
-        builder.addCase(resetPassword.rejected, (state, action) => {
-            state.loading = false;
+        builder.addCase(resetPassword.rejected, (state) => {
             state.error = 'Kunne ikke send gendannelses mail, prøv igen senere '
         })
 
         builder.addCase('user/errorReset', (state) => {state.error = undefined; state.notification = undefined})
     }
 })
+
 
 export const {  signout } = user.actions;
 export default user.reducer;

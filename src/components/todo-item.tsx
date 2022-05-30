@@ -32,7 +32,7 @@ const TodoItem:React.FC<Props> = ({ item, onRemove, onDone}) => {
                   checked={item.done}
                 />
                 </Pressable>
-                <Text>{item.task}</Text>
+                <Text _dark={{color: 'dark.3'}}>{item.task}</Text>
                 </HStack>
                 <Stack alignItems={'center'}>
                   <IconButton onPress={onRemove} _icon={{

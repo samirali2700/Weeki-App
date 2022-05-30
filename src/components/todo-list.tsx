@@ -2,7 +2,7 @@ import React from 'react';
 import { Dimensions } from 'react-native';
 
 import { PanGestureHandlerProps, ScrollView } from 'react-native-gesture-handler';
-import Animated, {  Layout, FadeOut, SlideInLeft } from 'react-native-reanimated';
+import Animated, {  Layout, FadeOut, SlideInLeft, SlideOutRight } from 'react-native-reanimated';
 
 
 import TodoItem  from "./todo-item";
@@ -19,7 +19,7 @@ interface TodoItemProps extends Pick<PanGestureHandlerProps, 'simultaneousHandle
 }
 const AnimatedTodoItem:React.FC<TodoItemProps> = ({item, onRemoveItem, simultaneousHandlers, onDone}) => {
   return (
-    <Animated.View layout={Layout.delay(200)} entering={SlideInLeft} exiting={FadeOut.duration(2000)}>
+    <Animated.View layout={Layout.delay(200)} entering={SlideInLeft}>
       <TodoItem 
           item={item}
           onRemove={onRemoveItem}

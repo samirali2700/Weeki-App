@@ -1,27 +1,34 @@
 import React, { useLayoutEffect } from 'react';
-import { VStack, Center, Avatar, Heading, IconButton, useColorModeValue, Box, Image, Icon } from 'native-base';
+import { VStack, Switch, useColorMode, Center, Avatar, Heading, IconButton, useColorModeValue, Box, Image, Icon, HStack , Text, Divider, Stack} from 'native-base';
 
 import { PrivateStackScreenProps } from '../../../typings/RootParamList';
 import { Feather } from '@expo/vector-icons';
 
 type Props = PrivateStackScreenProps<'Settings'>
 const Settings:React.FC<Props> = ({navigation}) => {
-
+    const {colorMode, toggleColorMode} = useColorMode();
     useLayoutEffect(() => {
         navigation.setOptions({
-            headerLeft: () => <IconButton mx={2} icon={<Icon as={Feather} name='chevron-left' size="2xl" onPress={() => navigation.navigate('AppStack')}/>}/>     
+            headerLeft: () => <IconButton mx={2} icon={<Icon as={Feather} name='chevron-left' size="2xl" onPress={() => navigation.navigate('AppStack', {screen: 'Home'})}/>}/>     
         });
     },[])
 
  
     return(
-     <Center w="100%" h="100%"  _dark={{bg: 'blueGray.900'}}  _light={{bg: 'primary.50'}}> 
-        <VStack space={5} w="100%" alignItems="center">
-            <Box p={10} bg={useColorModeValue('red.500','yellow.500')} >
-                <Heading size="2xl">Indstillinger</Heading>
-            </Box>
+    
+        <VStack w="100%" safeAreaTop pt={'3/5'} px={5} space={5}  _dark={{bg: 'blueGray.900'}} _light={{bg: 'primary.50'}} flex={1}>
+            
+        <Box bg='white' p={5} rounded='xl' _dark={{bg: 'dark.1'}}>
+        <Heading mb={5}>App</Heading>
+        <Divider />
+            <HStack alignItems='center' justifyContent={'space-between'}>
+                <Text >Mørktilstand</Text>
+                <Switch isChecked={colorMode !== 'light'} onToggle={toggleColorMode}  size='lg' offTrackColor="indigo.100" onTrackColor="indigo.200" onThumbColor="indigo.500" offThumbColor="indigo.50"/>
+            </HStack>
+        </Box>
+            
         </VStack>
-    </Center>
+
    
     )
 }

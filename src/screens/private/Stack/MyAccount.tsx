@@ -11,7 +11,7 @@ const MyAccount:React.FC<Props> = ({navigation}) => {
 
     useLayoutEffect(() => {
         navigation.setOptions({
-            headerLeft: () => <IconButton mx={2} icon={<Icon as={Feather} name='chevron-left' size="2xl" onPress={() => navigation.navigate('AppStack')}/>}/>     
+            headerLeft: () => <IconButton mx={2} icon={<Icon as={Feather} name='chevron-left' size="2xl" onPress={() => navigation.navigate('AppStack', {screen: 'Home'})}/>}/>     
         });
     },[])
     //reset({index: 0, routes: [{name: 'AppStack'}]})

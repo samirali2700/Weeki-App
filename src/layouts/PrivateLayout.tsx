@@ -3,8 +3,6 @@ import React, { useCallback, useEffect } from 'react';
 //Navigators
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
-
-
 //Components
 import CustomDrawer from '../components/CustomDrawer';
 
@@ -12,39 +10,46 @@ import CustomDrawer from '../components/CustomDrawer';
 //Nav Stacks
 import RootStack from '../navigationStacks/RootStack';
 
+import * as SecureStore from 'expo-secure-store';
 
 //redux store
-import {  useAppSelector } from "../hooks/reduxHook";
+import {  useAppDispatch, useAppSelector } from "../hooks/reduxHook";
 
 //native components
-import { View, useToken, IconButton, Icon, Slide, Box, Text } from 'native-base';
+import { View, useToken, IconButton, Icon, Slide, Box, Text, Alert } from 'native-base';
 
-//type checking
-import { PrivateDrawerParamList, RootStackScreenProps } from '../typings/RootParamList';
+import { PrivateDrawerParamList } from '../typings/RootParamList';
+import { signout } from '../store/slices/userSlice';
+import { getUser } from '../store/selectors';
+import AppStack from '../navigationStacks/AppStack';
+import MyAccount from '../screens/private/Stack/MyAccount';
+import Settings from '../screens/private/Stack/Settings';
 
 const Drawer = createDrawerNavigator<PrivateDrawerParamList>();
 
-
-type Props = RootStackScreenProps<'PrivateLayout'>
-const App:React.FC<Props> = ({ navigation }) => {
+const App = () => {
     const themeColor = useToken('themes','theme.50')
-    const { loggedIn, loggedInUser } = useAppSelector(state => state.user);
-    const [popup, setPopup] = React.useState(true)
-    const handleLogout = () => {}
+    const { user, loggedIn } = useAppSelector(state => state.user); 
 
+    const [popup, setPopup] = React.useState(true)
+    const dispatch = useAppDispatch();
+
+    const handleLogout = () => {
+        SecureStore.deleteItemAsync('password');
+        dispatch(signout());
+    }
     useEffect(() => {
         setPopup(true);
         setTimeout(() => {
             setPopup(false);
         }, 2500)
-        return () => { console.log('going outside rivate layout')};
     }, [loggedIn])
 
     return(
-        <View flex={1} bg="theme.100">   
+        <View flex={1} bg="theme.100" _dark={{bg: 'dark.1'}}>   
            <Slide in={popup} placement='top'>
                 <Box pt={8} pb={4} _text={{color: "white"}} bg="success.600" alignItems={'center'}>
-                    <Text fontSize={'md'} color='white'>Velkommen, {loggedInUser.email}</Text>
+                    <Text fontSize={'md'} color='white'>Velkommen, {user.email}</Text>
                 </Box>
             </Slide>
             <Drawer.Navigator
@@ -52,14 +57,14 @@ const App:React.FC<Props> = ({ navigation }) => {
                 drawerStyle: { width: '50%', backgroundColor: themeColor},            
                 sceneContainerStyle: { backgroundColor: themeColor, borderWidth: 0},
             }}  
-            drawerContent={props => <CustomDrawer  {...props} onLogout={handleLogout}/>}>
-                <Drawer.Screen name='RootStack' component={RootStack}></Drawer.Screen>
+            //drawerContent={props =>  <CustomDrawer {...props} onLogout={handleLogout} email={user.email} pp={user.profilePicture}/>}
+            >
+            <Drawer.Screen name='AppStack' options={{title: 'Hjem'}} component={AppStack}></Drawer.Screen>
+            <Drawer.Screen name='MyAccount' options={{title: 'Min Konto'}} component={MyAccount}></Drawer.Screen>
+            <Drawer.Screen name='Settings' options={{title: 'Indstillinger'}} component={Settings}></Drawer.Screen>
             </Drawer.Navigator>
         </View>
     )
 }
-
-
-
 export default App;
 

@@ -40,27 +40,27 @@ const TodoScreen:React.FC<Props> = () => {
         }else setEmpty(true);
     },[task])
 
-    useFocusEffect(useCallback(
-        () => {
-            setTask('');
-            setEmpty(false);
-        },
-        [],
-    ))
+    // useFocusEffect(useCallback(
+    //     () => {
+    //         setTask('');
+    //         setEmpty(false);
+    //     },
+    //     [],
+    // ))
     return(
-        <Box>
-             <VStack space={2} safeAreaTop  bg='theme.100' mb={'-7'} h={'72'} px={5} justifyContent='center' 
+        <Box _dark={{bg: 'dark.3'}} flex={1}>
+             <VStack _dark={{bg:'dark.2'}} space={2} safeAreaTop  bg='theme.100' mb={'-7'} h={'72'} px={5} justifyContent='center' 
                 style={{
                     borderBottomStartRadius:50,
                     borderBottomEndRadius: 50,
                 }}
              >
-                 <Box w={100} bg='theme.100' h={100} position='absolute' left={0} bottom={0} style={{transform: [{rotate: '25deg'}]}}></Box>
-                 <Box w={100} bg='theme.100' h={100} position='absolute' right={0} bottom={0} style={{transform: [{rotate: '-25deg'}]}}></Box>
+                 <Box w={100} _dark={{bg:'dark.2'}} bg='theme.100' h={100} position='absolute' left={0} bottom={0} style={{transform: [{rotate: '25deg'}]}}></Box>
+                 <Box w={100} _dark={{bg:'dark.2'}} bg='theme.100' h={100} position='absolute' right={0} bottom={0} style={{transform: [{rotate: '-25deg'}]}}></Box>
                 <Heading fontSize={'4xl'} color={'white'} >To-do</Heading>
                 <Text color={'white'} bold fontSize={'md'}>Hvad vil du lave?</Text>
                 <Box>
-                    <Input _focus={{bg:'white'}} placeholder={empty?'Du mangler at tilføje To-do':"Tilføj til To-do"} borderColor={empty?'red.600': 'white'} variant={'filled'} fontSize={'md'} onChangeText={setTask} value={task}/>                <IconButton onPress={addItem} _icon={{as: AntDesign, name: 'plus', color: 'black'}} position='absolute' right={'20px'} size={'lg'}></IconButton>
+                    <Input _dark={{bg:'white', color:'dark.3'}}  _focus={{bg:'white'}} placeholder={empty?'Du mangler at tilføje To-do':"Tilføj til To-do"} borderColor={empty?'red.600': 'white'} variant={'filled'} fontSize={'md'} onChangeText={setTask} value={task}/>                <IconButton onPress={addItem} _icon={{as: AntDesign, name: 'plus', color: 'black'}} position='absolute' right={'20px'} size={'lg'}></IconButton>
                 </Box>
             </VStack>
             <VStack  space={10} >

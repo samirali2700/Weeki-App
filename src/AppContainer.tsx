@@ -3,8 +3,7 @@ import PrivateLayout from "./layouts/PrivateLayout";
 import PublicLayout from "./layouts/PublicLayout";
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-import { useAppSelector } from './hooks/reduxHook';
+import {  useAppSelector } from './hooks/reduxHook';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,14 +20,14 @@ import {
     Gluten_800ExtraBold,
     Gluten_900Black,
   } from '@expo-google-fonts/gluten';
-import { Box, Center, Slide, Spinner } from 'native-base';
-import { RootStackScreenProps } from './typings/RootParamList';
+import { Center, Spinner} from 'native-base';
 
 
-const AppContainer = () => {
+const AppContainer =  () => {
     const { isLoading } = useAppSelector(state => state.app);
-    // const { loggedIn } = useAppSelector(state => state.user);
-    const loggedIn = true;
+    const { loggedIn } = useAppSelector(state => state.user);
+
+
     let [fontsLoaded] = useFonts({
         Gluten_100Thin,
         Gluten_200ExtraLight,
@@ -40,6 +39,7 @@ const AppContainer = () => {
         Gluten_800ExtraBold,
         Gluten_900Black,
     });
+
 
     if(!fontsLoaded || isLoading){
     return <Center flex={1}>

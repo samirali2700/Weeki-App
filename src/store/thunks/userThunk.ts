@@ -1,20 +1,19 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { User } from "../../entities/User";
-import { FirebaseSignupSuccess, FirebaseSuccessLogin } from "../../entities/FirebaseSuccessLogin";
+import axios from "axios";
+
 
 //firebase REST API key
 const key = 'AIzaSyBCnXBC9iOMKphzZZtEncYvUWohTDB1C5E'
 
-
-//error interface is for handling error and access, and rejectedWithValue 
-interface error{
-    error: object
-}
-
+//interfaces
+import { Error } from "../../interfaces/Error";
+import { Success } from "../../interfaces/Success";
 
 //extra async reducer function, takes a user in and returns either error or FirebaseSuccess object
 //thunkApi, is used to rejectWithValue
 export const signin: any = createAsyncThunk('user/signin', async (user: User, thunkApi) => {
+
     //url for the Rest Api sign in with email and pass
     const url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key='+key;
     //post method, takes email, passsword, and returSecureToken(always true) in body payload
@@ -34,10 +33,10 @@ export const signin: any = createAsyncThunk('user/signin', async (user: User, th
        
 
         if (response.status === 400){
-            return thunkApi.rejectWithValue( data as error)
+            return thunkApi.rejectWithValue( data as Error)
         }   
         else{
-            return (data as FirebaseSignupSuccess);
+            return ({data, user} as Success);
         }
 })
 
@@ -59,12 +58,13 @@ export const signup: any = createAsyncThunk('user/signup', async (user: User, th
     const data = await response.json();
    
 
-    thunkApi.dispatch({type:'user/loading/false'});
     if (response.status === 400){
-        return thunkApi.rejectWithValue( data as error)
+        return thunkApi.rejectWithValue( data as Error)
     }   
     else{
-        return (data as FirebaseSignupSuccess);
+        await axios.put('https://myapp-567d6-default-rtdb.europe-west1.firebasedatabase.app/members/'+data?.localId+'.json', {email: user.email});
+
+        return ({data, user} as Success);
     }
 })
 
@@ -83,8 +83,7 @@ export const resetPassword: any = createAsyncThunk('user/resetPassword', async (
     const data = await response.json();
     
     if(response.status === 400){
-        console.log(response.status);
-        return thunkApi.rejectWithValue(data as error);
+        return thunkApi.rejectWithValue(data as Error);
     }
     else{
         return (data);
@@ -112,7 +111,7 @@ export const resetPassword: any = createAsyncThunk('user/resetPassword', async (
     
 
     if(response.status === 400){
-        return (data) as error;
+        return (data) as Error;
     }
     else{
         return (data);

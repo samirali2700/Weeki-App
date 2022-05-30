@@ -1,16 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {Box, Center, Divider, HStack, Text}  from "native-base";
 
 import { createStackNavigator } from "@react-navigation/stack";
-import { PublicStackParamList, RootStackScreenProps } from "../typings/RootParamList";
+import { PublicStackParamList } from "../typings/RootParamList";
 
 import Login from "../screens/public/Login";
 import Signup from "../screens/public/Signup";
 
 const Stack = createStackNavigator<PublicStackParamList>();
     
-type Props = RootStackScreenProps<'PublicLayout'>
-const PublicLayout:React.FC<Props> = () =>  {
+
+const PublicLayout = () =>  {
     return(
         <Box flex={1} >
             <Center w="100%"  h="175" safeAreaTop>
